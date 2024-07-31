@@ -3,6 +3,9 @@ import errorMiddleware from "./middlewares/error";
 import config, { connectDB } from "./config";
 import routes from "./routes";
 import cors from "cors";
+import User from "./models/user";
+import { organizations, users } from "./data";
+import Organization from "./models/organization";
 
 const PORT = config.port;
 
@@ -36,6 +39,8 @@ app.use((_req: Request, res: Response) => {
 export const server = app.listen(PORT, () => {
   connectDB();
   console.log(`Server is listening on port:${PORT}`);
+  //   User.insertMany(users);
+  //   Organization.insertMany(organizations);
 });
 
 export default app;
