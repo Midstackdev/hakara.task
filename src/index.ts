@@ -1,6 +1,6 @@
 import express, { Application, Request, Response } from "express";
 import errorMiddleware from "./middlewares/error";
-import config from "./config";
+import config, { connectDB } from "./config";
 import routes from "./routes";
 import cors from "cors";
 
@@ -34,6 +34,7 @@ app.use((_req: Request, res: Response) => {
 });
 
 export const server = app.listen(PORT, () => {
+  connectDB();
   console.log(`Server is listening on port:${PORT}`);
 });
 
