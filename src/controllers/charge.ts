@@ -24,9 +24,16 @@ export const start = async (
 
 export const stop = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    return res.status(200).json({
-      message: "home route is optimal",
-    });
+    const { id } = req.params;
+    const { organizationId, userId } = req.body;
+    const data = {
+      organizationId,
+      userId,
+      chargingStationId: id,
+    };
+
+    const stoped = await chargingService.stop(data);
+    return res.status(200).json(stoped);
   } catch (error) {
     next(error);
   }

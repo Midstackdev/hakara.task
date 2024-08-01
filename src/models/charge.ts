@@ -2,8 +2,8 @@ import mongoose, { Document, Schema } from "mongoose";
 
 export type ICharge = {
   _id?: string;
-  startTime: string;
-  stopTime: string;
+  startTime: Date;
+  stopTime: Date;
   chargingStationId: string;
   organizationId: string;
   userId: string;

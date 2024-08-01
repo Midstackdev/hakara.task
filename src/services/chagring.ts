@@ -1,4 +1,4 @@
-import Charge, { ICharge } from "../models/charge";
+import Charge, { ChargeDoc, ICharge } from "../models/charge";
 import ChargingStation, {
   ChargingStationDoc,
   IChargingStation,
@@ -19,8 +19,8 @@ class ChargingService {
     return exists;
   }
 
-  public async charging(id: string): Promise<ICharge | null> {
-    const exists = await Charge.findById(id);
+  public async charging(query: Record<any, any>): Promise<ChargeDoc | null> {
+    const exists = await Charge.findOne(query);
     if (!exists) {
       throw new Error("Charger is invalid");
     }
@@ -52,7 +52,34 @@ class ChargingService {
     return started;
   }
 
-  public async stop(id: string) {}
+  public async stop(data: ChargeDTO) {
+    const station = await this.station(data.chargingStationId);
+
+    if (!station) {
+      throw new Error("Station is invalid");
+    }
+
+    if (station.status === STATUS.IDLE) {
+      throw new Error("Station is in not use");
+    }
+
+    const chagring = await this.charging({ ...data, stopTime: null });
+
+    if (!chagring) {
+      throw new Error("Charge is invalid");
+    }
+
+    chagring.stopTime = new Date();
+    const chagringData = await chagring.save();
+
+    station.status = STATUS.IDLE;
+    const stationData = await station.save();
+
+    return {
+      stationData,
+      chagring,
+    };
+  }
 }
 
 export const chargingService = new ChargingService();
