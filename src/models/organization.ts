@@ -19,7 +19,8 @@ const OrganizationSchema: Schema = new Schema(
   { timestamps: true }
 );
 
-export default mongoose.model<OrganizationDoc>(
+const Organization = mongoose.model<OrganizationDoc>(
   "Organization",
   OrganizationSchema
 );
+export default Organization;

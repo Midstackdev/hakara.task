@@ -20,6 +20,7 @@ export const create = async (
   next: NextFunction
 ) => {
   try {
+    //validate request body
     const stations = await ChargingStation.create(req.body);
     return res.status(200).json(stations);
   } catch (error) {
@@ -30,17 +31,29 @@ export const create = async (
 export const show = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const station = await ChargingStation.findById(req.params.id);
+    if (!station) {
+      throw new Error("Not Found!");
+    }
     return res.status(200).json(station);
   } catch (error) {
     next(error);
   }
 };
 
+/**
+ *
+ * @param req
+ * @param res
+ * @param next
+ * @returns
+ */
 export const update = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
+  //ideally check for ownership for organization and permissions
+  //validate request body
   try {
     const station = await ChargingStation.findByIdAndUpdate(
       req.params.id,

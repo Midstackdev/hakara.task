@@ -16,13 +16,15 @@ export type ChargeDoc = ICharge & Document;
  */
 const ChargeSchema: Schema = new Schema(
   {
-    chargingStationId: { type: String, required: true },
+    chargingStationId: { type: Schema.Types.ObjectId, required: true },
     startTime: { type: Date, required: true },
-    stopTime: { type: Date },
-    organizationId: { type: String, required: true },
-    userId: { type: String, required: true },
+    stopTime: { type: Date, default: "" },
+    organizationId: { type: Schema.Types.ObjectId, required: true },
+    userId: { type: Schema.Types.ObjectId, required: true },
   },
   { timestamps: true }
 );
 
-export default mongoose.model<ChargeDoc>("Charge", ChargeSchema);
+// export default mongoose.model<ChargeDoc>("Charge", ChargeSchema);
+const ChargingStation = mongoose.model<ChargeDoc>("Charge", ChargeSchema);
+export default ChargingStation;
