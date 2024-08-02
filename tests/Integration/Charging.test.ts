@@ -2,6 +2,7 @@ import ChargingStation from "../../src/models/chargingStation";
 import { app } from "../utils";
 import User from "../../src/models/user";
 import Organization from "../../src/models/organization";
+import { clearDB } from "../../src/config";
 
 describe("Charging process suite", () => {
   let stationId: string;
@@ -33,12 +34,21 @@ describe("Charging process suite", () => {
   });
 
   afterAll(async () => {
-    // await closeDB();
-    // server.close();
+    await clearDB();
   });
   describe("Start charging", () => {
     it("should start the charging process", async () => {
       const response = await app.post(`/api/charge/${stationId}/start`).send({
+        organizationId,
+        userId,
+      });
+      expect(response.status).toBe(200);
+    });
+  });
+
+  describe("Stop charging", () => {
+    it("should stop the charging process", async () => {
+      const response = await app.post(`/api/charge/${stationId}/stop`).send({
         organizationId,
         userId,
       });
