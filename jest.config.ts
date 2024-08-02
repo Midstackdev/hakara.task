@@ -7,8 +7,8 @@ const config: Config.InitialOptions = {
   collectCoverage: false,
   collectCoverageFrom: ["<rootDir>/tests/**/*.ts"],
   roots: ["<rootDir>/tests"],
-  // setupFiles: ["dotenv/config"],
-  // setupFilesAfterEnv: ["/jest.setup.ts"],
+  setupFiles: ["<rootDir>/jest.setup.ts"],
+  setupFilesAfterEnv: ["<rootDir>/jest.setupAfterEnv.ts"],
 };
 
 export default config;

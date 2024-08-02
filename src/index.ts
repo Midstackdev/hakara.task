@@ -36,11 +36,15 @@ app.use((_req: Request, res: Response) => {
   });
 });
 
-export const server = app.listen(PORT, () => {
-  connectDB();
-  console.log(`Server is listening on port:${PORT}`);
-  //   User.insertMany(users);
-  //   Organization.insertMany(organizations);
-});
+if (process.env.NODE_ENV !== "test") {
+  const server = app.listen(PORT, () => {
+    connectDB();
+    console.log(`Server is listening on port:${PORT}`);
+    //   User.insertMany(users);
+    //   Organization.insertMany(organizations);
+  });
+}
+
+// export
 
 export default app;

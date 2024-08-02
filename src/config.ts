@@ -39,3 +39,15 @@ export const connectDB = async () => {
     process.exit(1);
   }
 };
+
+export const closeDB = async () => {
+  await mongoose.connection.close();
+  console.log("Database disconnected");
+};
+
+export const clearDB = async () => {
+  const collections = await mongoose.connection.db.collections();
+  for (let collection of collections) {
+    await collection.deleteMany({});
+  }
+};

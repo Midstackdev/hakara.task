@@ -1,5 +1,4 @@
-import request from "supertest";
-import { server } from "../../src";
+import { app } from "../utils";
 
 describe("Example Test Suite", () => {
   it("should be true", () => {
@@ -8,11 +7,6 @@ describe("Example Test Suite", () => {
 });
 
 describe("Home route test", () => {
-  const app = request(server);
-
-  afterAll(() => {
-    server.close();
-  });
   it("/api/home returns status 200", async () => {
     const res = await app.get("/api/home");
     expect(res.statusCode).toBe(200);

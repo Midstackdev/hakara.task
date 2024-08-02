@@ -6,26 +6,12 @@ import ChargingStation, {
 import { ChargeDTO, STATUS, STATUS_VALUES } from "../types";
 
 class ChargingService {
-  // constructor(parameters) {
-
-  // }
-
   public async station(id: string): Promise<ChargingStationDoc | null> {
-    const exists = await ChargingStation.findById(id);
-    if (!exists) {
-      throw new Error("Station is invalid");
-    }
-
-    return exists;
+    return ChargingStation.findById(id);
   }
 
   public async charging(query: Record<any, any>): Promise<ChargeDoc | null> {
-    const exists = await Charge.findOne(query);
-    if (!exists) {
-      throw new Error("Charger is invalid");
-    }
-
-    return exists;
+    return Charge.findOne(query);
   }
 
   public async start(id: string, data: ChargeDTO) {
@@ -44,12 +30,12 @@ class ChargingService {
     station.status = STATUS.BUSY;
     await station.save();
 
-    const started = await Charge.create({
+    const charging = await Charge.create({
       ...data,
       startTime: new Date(),
     });
 
-    return started;
+    return { station, charging };
   }
 
   public async stop(data: ChargeDTO) {
@@ -77,7 +63,7 @@ class ChargingService {
 
     return {
       stationData,
-      chagring,
+      chagringData,
     };
   }
 }

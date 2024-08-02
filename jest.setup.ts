@@ -1,7 +1,3 @@
-import * as dotenv from "dotenv";
-import path from "path";
+import dotenv from "dotenv";
 
-// dotenv.config({ path: './config.env.test' });
-dotenv.config({
-  path: path.resolve(__dirname + "./.env.test"),
-});
+dotenv.config({ path: ".env.test" });
