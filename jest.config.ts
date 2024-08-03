@@ -9,6 +9,7 @@ const config: Config.InitialOptions = {
   roots: ["<rootDir>/tests"],
   setupFiles: ["<rootDir>/jest.setup.ts"],
   setupFilesAfterEnv: ["<rootDir>/jest.setupAfterEnv.ts"],
+  globalSetup: "<rootDir>/jest.globalSetup.ts",
 };
 
 export default config;

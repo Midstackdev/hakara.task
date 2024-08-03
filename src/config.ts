@@ -45,6 +45,12 @@ export const closeDB = async () => {
   console.log("Database disconnected");
 };
 
+export const dropDB = async () => {
+  await mongoose.connection.dropDatabase();
+  await mongoose.connection.close();
+  console.log("Database dropped");
+};
+
 export const clearDB = async () => {
   const collections = await mongoose.connection.db.collections();
   for (let collection of collections) {

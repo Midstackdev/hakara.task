@@ -7,9 +7,9 @@
     "test": "tests"
   },
   "scripts": {
-    "dev": "nodemon src/index.ts",
+    "dev": "nodemon src/server.ts",
     "build": "tsc",
-    "start": "yarn run build && node dist/index.js",
+    "start": "yarn run build && node dist/server.js",
     "test": "jest",
     "watch:test": "jest --watch"
   },
