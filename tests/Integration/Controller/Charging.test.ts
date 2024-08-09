@@ -7,8 +7,37 @@ import {
   mockResponse,
 } from "../../utils";
 import * as controller from "../../../src/controllers/charge";
+import { clearDB, connectDB } from "../../../src/config";
+import ChargingStation from "../../../src/models/chargingStation";
+import Organization from "../../../src/models/organization";
+import User from "../../../src/models/user";
 
 describe("handle charching process", () => {
+  let stationId: string;
+  let userId: string;
+  let organizationId: string;
+
+  beforeAll(async () => {
+    // await connectDB();
+    const user = await User.create({
+      name: "Dojo Smith",
+      email: "djis@sm.com",
+    });
+    userId = user._id.toString();
+    const organization = await Organization.create({
+      name: "Sertex Corp",
+      address: "24th Albun st.",
+    });
+    organizationId = organization._id.toString();
+    const station = await ChargingStation.create({
+      name: "Test Station",
+      location: "Test Location",
+      plugType: "Type 1",
+      chargingPower: 50,
+      organizationId,
+    });
+    stationId = station._id.toString();
+  });
   let req: MockedRequest;
   let res: MockedResponse;
   const next: MockedNext = mockNext();
@@ -16,22 +45,22 @@ describe("handle charching process", () => {
   beforeEach(() => {
     req = mockRequest();
     res = mockResponse();
-    req.body = {
-      userId: "",
-      organizationId: "",
-      chargingStationId: "",
-    };
+  });
+
+  afterAll(async () => {
+    await clearDB();
   });
 
   describe("statrt charging", () => {
     it("throws an error without chargingStationId param", async () => {
       req.body = {
-        userId: "66aa985f12f66af7358fd9f5",
-        organizationId: "66aa992f0d5feaf4c2850f3e",
-        chargingStationId: "66ab3d6ea68e4444b2dc8253",
+        userId,
+        organizationId,
       };
-      // await controller.start(req, res, next);
-      // expect(res.status).toHaveBeenCalledWith(500);
+      req.params = { id: stationId };
+      const tot = await controller.start(req, res, next);
+      // console.log("====fd====", tot);
+      expect(res.status).toHaveBeenCalledWith(200);
       // expect(res.json).toHaveBeenCalledWith({ message: "Station is invalid" });
     });
   });

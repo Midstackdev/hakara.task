@@ -26,5 +26,5 @@ const ChargeSchema: Schema = new Schema(
 );
 
 // export default mongoose.model<ChargeDoc>("Charge", ChargeSchema);
-const ChargingStation = mongoose.model<ChargeDoc>("Charge", ChargeSchema);
-export default ChargingStation;
+const Charge = mongoose.model<ChargeDoc>("Charge", ChargeSchema);
+export default Charge;

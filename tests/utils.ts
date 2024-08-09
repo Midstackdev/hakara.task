@@ -1,11 +1,12 @@
 import { Handler, NextFunction } from "express";
 import request from "supertest";
 import App from "../src";
+import mongoose from "mongoose";
 
 export const mockRequest = () => {
   const req: any = {};
-  req.body = jest.fn().mockReturnValue(req);
-  req.params = jest.fn().mockReturnValue(req);
+  req.body = {};
+  req.params = {};
   return req;
 };
 
@@ -32,3 +33,5 @@ export const callHandler = async (
 };
 
 export const app = request(App);
+
+export const objectId = () => new mongoose.Types.ObjectId();
